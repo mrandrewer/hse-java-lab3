@@ -84,7 +84,7 @@ public class ConfectioneryProduct {
      */
     @Override
     public String toString() {
-        return String.format("ConfectioneryProduct{name='%s', price=%.2f}", name, price);
+        return String.format("ConfectioneryProduct{name='%s', price=%.2f}", name, price.doubleValue());
     }
 
     /**
