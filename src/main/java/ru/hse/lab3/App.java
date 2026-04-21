@@ -1,13 +1,22 @@
 package ru.hse.lab3;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Лабораторная работа 3. Вариант 15
  */
 public class App {
 
-    public static void main(String[] args) {
+    /**
+     * Заполнение набора кондитерских изделий
+     * 
+     * @return Массив {@link ConfectioneryProduct}
+     */
+    private static ConfectioneryProduct[] fillArray() {
         ConfectioneryProduct[] products = new ConfectioneryProduct[20];
 
         products[0] = new ConfectioneryProduct("Конфета", BigDecimal.valueOf(10.0));
@@ -36,11 +45,106 @@ public class App {
         products[18] = new Cake("Чизкейк Нью-Йорк", BigDecimal.valueOf(1200.0), 2);
         products[19] = new Cookie("Крекер соленый", BigDecimal.valueOf(35.0), Shape.SQUARE);
 
+        return products;
+    }
+
+    /**
+     * Вычисление среднего количества слоёв во всех тортах
+     */
+    public static double getAverageLayersInCakes(ConfectioneryProduct[] products) {
+        int totalLayers = 0;
+        int cakeCount = 0;
+        for (ConfectioneryProduct product : products) {
+            if (product instanceof Cake cake) {
+                totalLayers += cake.getLayers();
+                cakeCount++;
+            }
+        }
+        return cakeCount > 0 ? (double) totalLayers / cakeCount : 0.0;
+    }
+
+    /**
+     * Получение названий всех видов шоколадного печенья заданной формы
+     */
+    public static List<String> getChocolateCookieNamesByShape(ConfectioneryProduct[] products, Shape shape) {
+        List<String> names = new ArrayList<>();
+        for (ConfectioneryProduct product : products) {
+            if (product instanceof ChocolateCookie сookie) {
+                if (сookie.getShape() == shape) {
+                    names.add(сookie.getName());
+                }
+            }
+        }
+        return names;
+    }
+
+    /**
+     * Получение общей стоимости всех кондитерских изделий
+     */
+    public static BigDecimal getTotalPrice(ConfectioneryProduct[] products) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (ConfectioneryProduct product : products) {
+            total = total.add(product.getPrice());
+        }
+        return total;
+    }
+
+    /**
+     * Получение количества печенья каждого типа формы
+     */
+    public static HashMap<Shape, Integer> getCookieCountByShape(ConfectioneryProduct[] products) {
+        var result = new HashMap<Shape, Integer>();
+        for (ConfectioneryProduct product : products) {
+            if (product instanceof Cookie cookie) {
+                Shape shape = cookie.getShape();
+                result.put(shape, result.getOrDefault(shape, 0) + 1);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Получение cамого дорогого изделия
+     */
+    public static ConfectioneryProduct getMostExpensiveProduct(ConfectioneryProduct[] products) {
+        ConfectioneryProduct mostExpensive = null;
+        for (ConfectioneryProduct product : products) {
+            if (mostExpensive == null || product.getPrice().compareTo(mostExpensive.getPrice()) > 0) {
+                mostExpensive = product;
+            }
+        }
+        return mostExpensive;
+    }
+
+    public static void main(String[] args) {
+        var products = fillArray();
+
         // Вывод массива объектов
         System.out.println("Список кондитерских изделий:");
         for (int i = 0; i < products.length; i++) {
             System.out.println((i + 1) + ". " + products[i]);
         }
         System.out.println();
+
+        // Выполнение запросов
+        System.out.println("Запросы:");
+
+        double avgLayers = getAverageLayersInCakes(products);
+        System.out.println("Среднее количество слоёв во всех тортах: " + avgLayers);
+
+        List<String> roundChocoCookies = getChocolateCookieNamesByShape(products, Shape.ROUND);
+        System.out.println("Названия шоколадного печенья круглой формы: " + roundChocoCookies);
+
+        BigDecimal totalPrice = getTotalPrice(products);
+        System.out.println("Общая стоимость всех изделий: " + totalPrice + " руб.");
+
+        HashMap<Shape, Integer> shapeCounts = getCookieCountByShape(products);
+        System.out.println("Количество печенья по формам:");
+        for (var entry : shapeCounts.entrySet()) {
+            System.out.println("   " + entry.getKey().getDisplayName() + ": " + entry.getValue());
+        }
+
+        ConfectioneryProduct mostExpensive = getMostExpensiveProduct(products);
+        System.out.println("Самое дорогое изделие: " + mostExpensive);
     }
 }
