@@ -36,32 +36,44 @@ public class Contract extends Document {
     }
 
     /**
-     * Конструктор с названием, описанием и статусом.
+     * Конструктор с регистрационными данными, контрагентом и суммой.
      *
-     * @param id          идентификатор договора
-     * @param title       название договора
-     * @param description описание договора
-     * @param status      статус договора
+     * @param id                 идентификатор договора
+     * @param title              название договора
+     * @param description        описание договора
+     * @param registrationNumber регистрационный номер
+     * @param registrationDate   дата регистрации
+     * @param counterparty       сторона договора
+     * @param amount             сумма договора
      */
-    public Contract(UUID id, String title, String description, DocumentStatus status) {
-        super(id, title, description, status);
+    public Contract(UUID id, String title, String description,
+            String registrationNumber, LocalDate registrationDate,
+            String counterparty, BigDecimal amount) {
+        super(id, title, description, registrationNumber, registrationDate);
+        setCounterparty(counterparty);
+        setAmount(amount);
     }
 
     /**
      * Конструктор со всеми параметрами договора.
      *
-     * @param id          идентификатор договора
-     * @param title       название договора
-     * @param description описание договора
-     * @param status      статус договора
-     * @param amount      сумма договора
-     * @param startDate   дата начала
-     * @param endDate     дата окончания
+     * @param id                 идентификатор договора
+     * @param title              название договора
+     * @param description        описание договора
+     * @param registrationNumber регистрационный номер
+     * @param registrationDate   дата регистрации
+     * @param counterparty       сторона договора
+     * @param amount             сумма договора
+     * @param status             статус договора
+     * @param startDate          дата начала
+     * @param endDate            дата окончания
      */
-    public Contract(UUID id, String title, String description, DocumentStatus status, BigDecimal amount,
+    public Contract(UUID id, String title, String description,
+            String registrationNumber, LocalDate registrationDate,
+            String counterparty, BigDecimal amount, DocumentStatus status,
             LocalDate startDate, LocalDate endDate) {
-        super(id, title, description, status);
-        setAmount(amount);
+        this(id, title, description, registrationNumber, registrationDate, counterparty, amount);
+        setStatus(status);
         setStartDate(startDate);
         setEndDate(endDate);
     }

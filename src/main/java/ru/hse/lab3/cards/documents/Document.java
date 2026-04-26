@@ -40,34 +40,38 @@ public class Document extends Card {
     }
 
     /**
-     * Конструктор с идентификатором, названием, описанием и статусом.
-     *
-     * @param id          идентификатор документа
-     * @param title       название документа
-     * @param description описание документа
-     * @param status      статус документа
-     */
-    public Document(UUID id, String title, String description, DocumentStatus status) {
-        super(id, title, description, status);
-    }
-
-    /**
-     * Конструктор с идентификатором, регистрационными данными и содержимым.
+     * Конструктор с регистрационными данными.
      *
      * @param id                 идентификатор документа
      * @param title              название документа
      * @param description        описание документа
-     * @param status             статус документа
+     * @param registrationNumber регистрационный номер
+     * @param registrationDate   дата регистрации
+     */
+    public Document(UUID id, String title, String description,
+            String registrationNumber, LocalDate registrationDate) {
+        this(id, title, description);
+        setRegistrationNumber(registrationNumber);
+        setRegistrationDate(registrationDate);
+    }
+
+    /**
+     * Конструктор с регистрационными данными, содержимым и статусом.
+     *
+     * @param id                 идентификатор документа
+     * @param title              название документа
+     * @param description        описание документа
      * @param registrationNumber регистрационный номер
      * @param registrationDate   дата регистрации
      * @param content            содержимое документа
+     * @param status             статус документа
      */
-    public Document(UUID id, String title, String description, DocumentStatus status,
-            String registrationNumber, LocalDate registrationDate, String content) {
-        super(id, title, description, status);
-        setRegistrationNumber(registrationNumber);
-        setRegistrationDate(registrationDate);
+    public Document(UUID id, String title, String description,
+            String registrationNumber, LocalDate registrationDate, String content,
+            DocumentStatus status) {
+        this(id, title, description, registrationNumber, registrationDate);
         setContent(content);
+        setStatus(status);
     }
 
     /**
