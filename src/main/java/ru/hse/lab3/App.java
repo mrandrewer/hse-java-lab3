@@ -122,7 +122,7 @@ public class App {
         return mostExpensive;
     }
 
-    public static void main(String[] args) {
+    public static void testConfectionary() {
         var products = fillArray();
 
         // Вывод массива объектов
@@ -152,5 +152,9 @@ public class App {
 
         ConfectioneryProduct mostExpensive = getMostExpensiveProduct(products);
         System.out.println("Самое дорогое изделие: " + mostExpensive);
+    }
+
+    public static void main(String[] args) {
+        testConfectionary();
     }
 }
