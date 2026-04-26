@@ -11,7 +11,7 @@ import java.util.UUID;
 public abstract class Card implements IExportable {
 
     /** Уникальный идентификатор карточки */
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     /** Название карточки */
     private String title;
@@ -27,10 +27,13 @@ public abstract class Card implements IExportable {
 
     /** Формат даты и времени карточки */
     protected static final DateTimeFormatter DOC_DATE_FORMATTER;
+    /** Формат даты карточки */
+    protected static final DateTimeFormatter DATE_FORMATTER;
 
     /** Статический инициализатор */
     static {
         DOC_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
+        DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     }
     /** Инициализатор экземпляра */
     {
@@ -39,45 +42,44 @@ public abstract class Card implements IExportable {
     }
 
     /**
-     * Конструктор без параметров.
-     */
-    public Card() {
-        this("Проект карточки", "Описание карточки");
-    }
-
-    /**
-     * Конструктор с названием и описанием.
+     * Конструктор с идентификатором, названием и описанием.
      *
+     * @param id          уникальный идентификатор карточки
      * @param title       название карточки
      * @param description описание карточки
      */
-    public Card(String title, String description) {
+    public Card(UUID id, String title, String description) {
+        Objects.requireNonNull(id, "Id cannot be null.");
+        this.id = id;
         setTitle(title);
         setDescription(description);
     }
 
     /**
-     * Конструктор с названием, описанием и статусом.
+     * Конструктор с идентификатором, названием, описанием и статусом.
      *
+     * @param id          уникальный идентификатор карточки
      * @param title       название карточки
      * @param description описание карточки
      * @param status      статус карточки
      */
-    public Card(String title, String description, DocumentStatus status) {
-        this(title, description);
+    public Card(UUID id, String title, String description, DocumentStatus status) {
+        this(id, title, description);
         setStatus(status);
     }
 
     /**
-     * Конструктор с названием, описанием и статусом.
+     * Конструктор с идентификатором, названием, описанием, статусом и датой
+     * создания.
      *
+     * @param id           уникальный идентификатор карточки
      * @param title        название карточки
      * @param description  описание карточки
      * @param status       статус карточки
      * @param creationDate дата создания карточки
      */
-    public Card(String title, String description, DocumentStatus status, LocalDateTime creationDate) {
-        this(title, description, status);
+    public Card(UUID id, String title, String description, DocumentStatus status, LocalDateTime creationDate) {
+        this(id, title, description, status);
         this.creationDate = creationDate;
     }
 
