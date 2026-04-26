@@ -107,6 +107,7 @@ package "ru.hse.lab3.cards" {
         + void setDescription(String)
         + DocumentStatus getStatus()
         + void setStatus(DocumentStatus)
+        + void setStatus(String)
         + LocalDateTime getCreationDate()
         + String getFormattedCreationDate()
         + String getDigest()
