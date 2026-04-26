@@ -1,8 +1,14 @@
 package ru.hse.lab3;
 
+import ru.hse.lab3.confectionery.Cake;
+import ru.hse.lab3.confectionery.ChocolateCookie;
+import ru.hse.lab3.confectionery.ChocolateType;
+import ru.hse.lab3.confectionery.Cookie;
+import ru.hse.lab3.confectionery.ConfectioneryProduct;
+import ru.hse.lab3.confectionery.Shape;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 

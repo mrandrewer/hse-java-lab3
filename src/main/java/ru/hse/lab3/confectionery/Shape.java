@@ -1,4 +1,4 @@
-package ru.hse.lab3;
+package ru.hse.lab3.confectionery;
 
 /**
  * Перечисление форм печенья

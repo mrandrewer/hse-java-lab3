@@ -1,4 +1,4 @@
-package ru.hse.lab3;
+package ru.hse.lab3.confectionery;
 
 import java.math.BigDecimal;
 import java.util.Objects;
