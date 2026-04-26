@@ -35,6 +35,7 @@ public abstract class Card implements IExportable {
         DOC_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss");
         DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     }
+
     /** Инициализатор экземпляра */
     {
         status = DocumentStatus.DRAFT;
