@@ -10,6 +10,13 @@ The diagrams below describe the main class hierarchies in the project.
 
 ### Confectionery model
 
+```mermaid
+flowchart TD
+    ConfectioneryProduct --> Cake
+    ConfectioneryProduct --> Cookie
+    Cookie --> ChocolateCookie
+```
+
 ```plantuml
 @startuml
 package "ru.hse.lab3.confectionery" {
@@ -58,6 +65,13 @@ package "ru.hse.lab3.confectionery" {
 ```
 
 ### Card/document model
+
+```mermaid
+flowchart TD
+    IExportable --> Card
+    Card --> Document
+    Document --> Contract
+```
 
 ```plantuml
 @startuml
