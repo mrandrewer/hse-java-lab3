@@ -1,5 +1,9 @@
 package ru.hse.lab3;
 
+import ru.hse.lab3.cards.DocumentStatus;
+import ru.hse.lab3.cards.IExportable;
+import ru.hse.lab3.cards.documents.Contract;
+import ru.hse.lab3.cards.documents.Document;
 import ru.hse.lab3.confectionery.Cake;
 import ru.hse.lab3.confectionery.ChocolateCookie;
 import ru.hse.lab3.confectionery.ChocolateType;
@@ -8,9 +12,12 @@ import ru.hse.lab3.confectionery.ConfectioneryProduct;
 import ru.hse.lab3.confectionery.Shape;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Лабораторная работа 3. Вариант 15
@@ -122,6 +129,9 @@ public class App {
         return mostExpensive;
     }
 
+    /**
+     * Тестирование работы с кондитерскими изделиями
+     */
     public static void testConfectionary() {
         var products = fillArray();
 
@@ -154,7 +164,126 @@ public class App {
         System.out.println("Самое дорогое изделие: " + mostExpensive);
     }
 
+    /**
+     * Создание массива карточек, реализующих IExportable
+     * 
+     * @return массив IExportable
+     */
+    public static IExportable[] createExportableCards() {
+        return new IExportable[] {
+                new Contract(
+                        UUID.randomUUID(),
+                        "Договор аудита финансовой отчетности",
+                        "Договор на проведение аудита финансовой отчетности за 2025 год",
+                        "Д-2026-01",
+                        LocalDate.of(2026, 1, 15),
+                        "ООО Курьянов и партнеры",
+                        BigDecimal.valueOf(185000),
+                        DocumentStatus.ACTIVE,
+                        LocalDate.of(2026, 2, 1),
+                        LocalDate.of(2027, 3, 31)),
+                new Document(
+                        UUID.randomUUID(),
+                        "Счёт на оплату услуг по договору Д-2026-01",
+                        "Аванс по договору Д-2026-01",
+                        "С-12344/8",
+                        LocalDate.of(2026, 3, 15),
+                        "Оплата за проведение аудита финансовой отчетности за 2025 год по договору Д-2026-01",
+                        DocumentStatus.ARCHIVE),
+                new Document(
+                        UUID.randomUUID(),
+                        "Счёт на оплату услуг по договору Д-2026-01",
+                        "Итоговый расчет по договору Д-2026-01",
+                        "С-12344/9",
+                        LocalDate.of(2026, 3, 15),
+                        "Оплата за проведение аудита финансовой отчетности за 2025 год по договору Д-2026-01",
+                        DocumentStatus.APPROVAL),
+                new Contract(
+                        UUID.randomUUID(),
+                        "Договор технического обслуживания",
+                        "Договор технического обслуживания оборудования головнго офиса на 2026 год",
+                        "ТО-2026-2",
+                        LocalDate.of(2025, 12, 26),
+                        "ООО ТехСервис",
+                        BigDecimal.valueOf(1250000),
+                        DocumentStatus.ACTIVE,
+                        LocalDate.of(2026, 1, 1),
+                        LocalDate.of(2026, 12, 31)),
+                new Document(
+                        UUID.randomUUID(),
+                        "Акт по договору ТО-2026-2",
+                        "Акт выполненных работ за явнарь 2026 года",
+                        "АКТ-ТО-2026-2-01",
+                        LocalDate.of(2026, 2, 6),
+                        "Перечень выполненных работ по договору ТО-2026-2 за январь 2026 года ...",
+                        DocumentStatus.SIGNING)
+        };
+    }
+
+    /**
+     * Экранирование специальных символов в строке для корректного формата JSON
+     * 
+     * @param value исходная строка
+     * @return строка с экранированными символами
+     */
+    private static String escapeJson(String value) {
+        return value.replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
+    }
+
+    /**
+     * Преобразование объекта, реализующего IExportable, в JSON строку
+     * 
+     * @param item объект, реализующий IExportable
+     * @return строка в формате JSON
+     */
+    private static String exportableToJson(IExportable item) {
+        return String.format("{" +
+                "\"id\":\"%s\"," +
+                "\"creationDate\":\"%s\"," +
+                "\"digest\":\"%s\"," +
+                "\"contents\":\"%s\"}",
+                escapeJson(item.getId()),
+                item.getCreationDate().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                escapeJson(item.getDigest()),
+                escapeJson(item.getContents()));
+    }
+
+    /**
+     * Сохранение массива IExportable объектов в JSON массив строк
+     * 
+     * @param exportables массив объектов, реализующих IExportable
+     * @return строка в формате JSON
+     */
+    public static String saveExportablesToJsonArray(IExportable[] exportables) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (int i = 0; i < exportables.length; i++) {
+            builder.append(exportableToJson(exportables[i]));
+            if (i < exportables.length - 1) {
+                builder.append(",");
+            }
+        }
+        builder.append("]");
+        return builder.toString();
+    }
+
+    /**
+     * Тестирование экспорта карточек в JSON
+     */
+    public static void testCardExportToJson() {
+        IExportable[] cards = createExportableCards();
+        String jsonArray = saveExportablesToJsonArray(cards);
+        System.out.println("JSON массив карточек:");
+        System.out.println(jsonArray);
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         testConfectionary();
+        testCardExportToJson();
     }
 }
