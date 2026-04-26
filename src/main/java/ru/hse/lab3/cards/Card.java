@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * Базовый класс для всех элементов системы электронного документооборота
@@ -154,6 +155,28 @@ public abstract class Card implements IExportable {
             throw new IllegalArgumentException("Status cannot be null.");
         }
         this.status = status;
+    }
+
+    /**
+     * Установить статус карточки
+     *
+     * @param status Имя статуса или строка отображения статуса
+     */
+    public void setStatus(String status) {
+        if (status == null || status.isBlank()) {
+            throw new IllegalArgumentException("Status cannot be blank.");
+        }
+
+        String normalized = status.trim();
+        Stream.of(DocumentStatus.values())
+                .filter(s -> s.getDisplayName().equalsIgnoreCase(normalized)
+                        || s.name().equalsIgnoreCase(normalized))
+                .findFirst()
+                .ifPresentOrElse(
+                        this::setStatus,
+                        () -> {
+                            throw new IllegalArgumentException("Unknown status: " + status);
+                        });
     }
 
     /**

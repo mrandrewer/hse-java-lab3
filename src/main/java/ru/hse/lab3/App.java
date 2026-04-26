@@ -170,18 +170,21 @@ public class App {
      * @return массив IExportable
      */
     public static IExportable[] createExportableCards() {
+        var doc = new Contract(
+                UUID.randomUUID(),
+                "Договор аудита финансовой отчетности",
+                "Договор на проведение аудита финансовой отчетности за 2025 год",
+                "Д-2026-01",
+                LocalDate.of(2026, 1, 15),
+                "ООО Курьянов и партнеры",
+                BigDecimal.valueOf(185000),
+                DocumentStatus.DRAFT,
+                LocalDate.of(2026, 2, 1),
+                LocalDate.of(2027, 3, 31));
+        // проверка работы методы setStatus по строке
+        doc.setStatus("active");
         return new IExportable[] {
-                new Contract(
-                        UUID.randomUUID(),
-                        "Договор аудита финансовой отчетности",
-                        "Договор на проведение аудита финансовой отчетности за 2025 год",
-                        "Д-2026-01",
-                        LocalDate.of(2026, 1, 15),
-                        "ООО Курьянов и партнеры",
-                        BigDecimal.valueOf(185000),
-                        DocumentStatus.ACTIVE,
-                        LocalDate.of(2026, 2, 1),
-                        LocalDate.of(2027, 3, 31)),
+                doc,
                 new Document(
                         UUID.randomUUID(),
                         "Счёт на оплату услуг по договору Д-2026-01",

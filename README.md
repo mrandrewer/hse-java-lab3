@@ -38,23 +38,28 @@ package "ru.hse.lab3.confectionery" {
         - String name
         - BigDecimal price
         + String getName()
+        + void setName(String)
         + BigDecimal getPrice()
+        + void setPrice(BigDecimal)
         + String toString()
     }
 
     class Cake {
         - int layers
         + int getLayers()
+        + void setLayers(int)
     }
 
     class Cookie {
         - Shape shape
         + Shape getShape()
+        + void setShape(Shape)
     }
 
     class ChocolateCookie {
         - ChocolateType chocolateType
         + ChocolateType getChocolateType()
+        + void setChocolateType(ChocolateType)
     }
 
     ConfectioneryProduct <|-- Cake
